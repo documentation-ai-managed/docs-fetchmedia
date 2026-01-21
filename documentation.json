@@ -90,6 +90,10 @@
         "icon": "help-circle",
         "pages": [
           {
+            "title": "FAQ's",
+            "path": "help-center/faq"
+          },
+          {
             "title": "Help Center",
             "path": "help-center",
             "icon": "home"
@@ -98,12 +102,7 @@
             "group": "FAQs",
             "icon": "help-circle",
             "expandable": false,
-            "pages": [
-              {
-                "title": "How to Fetch Videos",
-                "path": "help-center/faq/how-to-fetch-videos"
-              }
-            ]
+            "pages": []
           },
           {
             "group": "Troubleshooting",
