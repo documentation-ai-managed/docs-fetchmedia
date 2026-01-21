@@ -20,6 +20,11 @@
             "icon": "rocket",
             "pages": [
               {
+                "title": "FAQ's",
+                "path": "help-center/faq",
+                "icon": "message-circle-question-mark"
+              },
+              {
                 "title": "Introduction",
                 "path": "introduction",
                 "icon": "star"
@@ -35,11 +40,6 @@
             "group": "Core Concepts",
             "icon": "layers",
             "pages": [
-              {
-                "title": "FAQ's",
-                "path": "help-center/faq",
-                "icon": "message-circle-question-mark"
-              },
               {
                 "title": "Authentication",
                 "path": "authentication",
