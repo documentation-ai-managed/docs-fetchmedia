@@ -36,6 +36,11 @@
             "icon": "layers",
             "pages": [
               {
+                "title": "FAQ's",
+                "path": "help-center/faq",
+                "icon": "message-circle-question-mark"
+              },
+              {
                 "title": "Authentication",
                 "path": "authentication",
                 "icon": "key"
@@ -80,44 +85,6 @@
                 "group": "Fetch",
                 "pages": [],
                 "openapi": "openapi.fetch.v1.yaml"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Help Center",
-        "icon": "help-circle",
-        "pages": [
-          {
-            "title": "Help Center",
-            "path": "help-center",
-            "icon": "home"
-          },
-          {
-            "title": "FAQ's",
-            "path": "help-center/faq",
-            "icon": "message-circle-question-mark"
-          },
-          {
-            "group": "Troubleshooting",
-            "icon": "alert-triangle",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Video Fetch Fails",
-                "path": "help-center/troubleshooting/video-fetch-fails"
-              }
-            ]
-          },
-          {
-            "group": "Guides",
-            "icon": "book-open",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Fetch TikTok Video",
-                "path": "help-center/guides/fetch-tiktok-video"
               }
             ]
           }
