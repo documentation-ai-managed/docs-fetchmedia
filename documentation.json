@@ -63,6 +63,10 @@
             "group": "Endpoints",
             "pages": [
               {
+                "title": "API Introduction",
+                "path": "api-introduction"
+              },
+              {
                 "group": "Commands",
                 "pages": [],
                 "openapi": "openapi.commands.v1.yaml"

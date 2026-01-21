@@ -20,3 +20,53 @@ curl -X POST https://api.fetchmedia.com/v1/fetch \
 ```
 
 You’ll receive the processed video or a download link in the response.
+
+## More FAQs
+
+### What quality levels can FetchMedia handle?
+
+FetchMedia can work with videos in HD (720p), Full HD (1080p), and 4K where available. You decide which quality fits your use case and performance requirements.
+
+### Do I need to install any software?
+
+No. You work with FetchMedia through HTTP requests. If your tool or code can call an API—n8n, Make, Node.js, Python, and so on—it can talk to FetchMedia.
+
+### Can FetchMedia fetch private videos?
+
+No. FetchMedia is designed for publicly accessible content and follows platform rules and creator privacy.
+
+### How do Fetcher and FFmpeg work together?
+
+Fetcher grabs the video from social platforms using URLs, and FFmpeg processes that video in the cloud. Many workflows use Fetcher first and then run FFmpeg steps immediately after.
+
+### What does "direct social URL processing" mean?
+
+You can send a social media video URL and let FetchMedia handle the heavy lifting. FetchMedia handles the actual fetching behind the scenes, so your flows can stay simple: social URL in, processed video out.
+
+### What are 2‑pass and 3‑pass encodings and when should I use them?
+
+Multi‑pass encodings let FFmpeg analyze the video and then encode it with smarter bitrate allocation. That gives you more consistent visual quality at a given file size, which is useful for longer videos, ads, or important exports.
+
+### Are Fetcher and FFmpeg billed differently?
+
+No. All features share the same pool of minutes on your plan. Whether you are fetching or processing, we only count the actual video minutes you work with. Minutes are shared between Fetcher and FFmpeg.
+
+### What is included in the Free plan?
+
+The Free plan includes 10 shared minutes per month for Fetcher and FFmpeg. It is designed for testing and small trial workflows.
+
+### Can I downgrade or cancel my plan?
+
+Yes. You can change or cancel your plan from your account settings. You keep your current plan and remaining minutes until the end of the billing period and are not charged again after that.
+
+### What happens to unused minutes if I downgrade?
+
+If you move to a smaller plan, your existing minutes stay available until the current cycle ends. After that, your new plan limits apply and any leftover minutes from the old plan expire.
+
+### How exactly are minutes counted?
+
+Every time FetchMedia handles a video—whether fetching or processing—we count the actual duration in minutes against your balance. If you reach your included minutes, you can add a top‑up, upgrade, or wait for the next reset.
+
+### Does FetchMedia store my videos or history?
+
+No. Files stream through to you. Apart from minimal logs needed to keep the service reliable, FetchMedia does not store your fetched or processed videos long term.
