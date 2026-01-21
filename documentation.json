@@ -61,7 +61,14 @@
         "groups": [
           {
             "group": "Endpoints",
-            "openapi": "openapi.yaml"
+            "openapi": "openapi.yaml",
+            "pages": [
+              {
+                "group": "Fetch",
+                "pages": [],
+                "openapi": "openapi.yaml"
+              }
+            ]
           },
           {
             "group": "Fetch",
