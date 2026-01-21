@@ -405,8 +405,9 @@ components:
           format: url
         duration:
           type: number
+  securitySchemes:
     ApiKeyAuth:
-      type: string
+      type: apiKey
       in: header
       name: X-API-KEY
 security:
