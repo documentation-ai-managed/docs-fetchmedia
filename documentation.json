@@ -69,11 +69,6 @@
                 "openapi": "openapi.yaml"
               }
             ]
-          },
-          {
-            "group": "Fetch",
-            "pages": [],
-            "openapi": "openapi.yaml"
           }
         ]
       },
