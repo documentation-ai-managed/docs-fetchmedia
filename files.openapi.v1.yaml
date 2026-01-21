@@ -44,9 +44,13 @@ paths:
                 file:
                   type: string
                   format: binary
+                  description: The file to upload.
+                  example: "file"
                 file_url:
                   type: string
                   format: url
+                  description: The URL of the public file to upload.
+                  example: "https://www3.cde.ca.gov/download/rod/big_buck_bunny.mp4"
       responses:
         '201':
           description: File created
@@ -74,6 +78,8 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the file.
+            example: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         '200':
           description: A file
@@ -91,6 +97,8 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the file.
+            example: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         '204':
           description: File deleted
@@ -105,11 +113,15 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the file.
+            example: "123e4567-e89b-12d3-a456-426614174000"
         - name: filename
           in: path
           required: true
           schema:
             type: string
+            description: The filename of the file.
+            example: "file.mp4"
       responses:
         '302':
           description: Redirect to the file
@@ -118,6 +130,7 @@ paths:
               schema:
                 type: string
                 format: url
+                description: Directed to an expiring URL to download the file.
 components:
   schemas:
     Asset:
@@ -126,18 +139,28 @@ components:
         id:
           type: string
           format: uuid
+          description: The ID of the file.
+          example: "123e4567-e89b-12d3-a456-426614174000"
         name:
           type: string
+          description: The name of the file.
+          example: "file.mp4"
         source:
           type: string
+          description: The source of the file.
+          example: "upload"
         created_at:
           type: string
           format: date-time
+          description: The creation time of the file.
         url:
           type: string
           format: url
+          description: The URL of the file.
+          example: "https://api.fetchmedia.io/v1/files/123e4567-e89b-12d3-a456-426614174000/file.mp4"
         ffprobe:
           type: object
+          description: The ffprobe of the file.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
