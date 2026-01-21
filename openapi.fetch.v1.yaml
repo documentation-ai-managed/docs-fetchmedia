@@ -1,0 +1,166 @@
+openapi: 3.0.0
+info:
+  title: FetchMedia API - Fetch
+  description: This is the Fetch endpoint for the FetchMedia API.
+  version: v1
+servers:
+  - url: https://api.fetchmedia.io/v1
+    description: Production server
+paths:
+  /fetch:
+    post:
+      summary: Create a fetch
+      description: Creates a new fetch from a URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: The URL to fetch.
+                quality:
+                  type: string
+                  description: The quality of the video to fetch.
+                webhook:
+                  type: string
+                  format: url
+                  description: The URL to send a webhook to when the fetch is complete.
+      responses:
+        '201':
+          description: Fetch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fetch'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /fetch/metadata:
+    get:
+      summary: Get video metadata
+      description: Retrieves metadata for a video from a URL.
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: url
+      responses:
+        '200':
+          description: Video metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+    post:
+      summary: Get video metadata
+      description: Retrieves metadata for a video from a URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: url
+      responses:
+        '200':
+          description: Video metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+  /fetch/{id}:
+    get:
+      summary: Get a fetch
+      description: Retrieves a fetch by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A fetch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fetch'
+  /fetch/{id}/{filename}:
+    get:
+      summary: Download a fetched file
+      description: Downloads a file that has been fetched.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to the file
+          headers:
+            Location:
+              schema:
+                type: string
+                format: url
+components:
+  schemas:
+    Fetch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+        url:
+          type: string
+          format: url
+        status:
+          type: string
+        download_url:
+          type: string
+          format: url
+        error:
+          type: string
+    Metadata:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        thumbnail:
+          type: string
+          format: url
+        duration:
+          type: number
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+security:
+  - ApiKeyAuth: []
