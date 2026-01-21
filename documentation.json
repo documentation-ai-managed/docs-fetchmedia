@@ -99,12 +99,6 @@
             "icon": "home"
           },
           {
-            "group": "FAQs",
-            "icon": "help-circle",
-            "expandable": false,
-            "pages": []
-          },
-          {
             "group": "Troubleshooting",
             "icon": "alert-triangle",
             "expandable": false,
