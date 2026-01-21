@@ -383,8 +383,6 @@ components:
         id:
           type: string
           format: uuid
-        digest:
-          type: string
         url:
           type: string
           format: url
@@ -407,3 +405,9 @@ components:
           format: url
         duration:
           type: number
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+security:
+  - ApiKeyAuth: []
