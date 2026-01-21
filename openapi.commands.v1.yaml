@@ -43,17 +43,34 @@ paths:
               properties:
                 ffmpeg_command:
                   type: string
+                  description: The ffmpeg command to execute. mutually exclusive with ffmpeg_commands.
+                  example: "ffmpeg -i {{in_1}} -c:v copy -c:a copy {{out_1}}"
                 ffmpeg_commands:
                   type: array
                   items:
                     type: string
+                    description: The ffmpeg commands to execute. mutually exclusive with ffmpeg_command.
+                    example: [
+                      "ffmpeg -y -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 1 -an -f mp4 /dev/null",
+                      "ffmpeg -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 2 {{out_1}}"
+                    ]
                 input_files:
                   type: object
+                  description: The input files to use for the command.
+                  example: {
+                    "in_1": "https://www3.cde.ca.gov/download/rod/big_buck_bunny.mp4"
+                  }
                 output_files:
                   type: object
+                  description: The output files to use for the command.
+                  example: {
+                    "out_1": "output.mp4"
+                  }
                 webhook:
                   type: string
                   format: url
+                  description: The webhook to send the command payload once the job is completed.
+                  example: "https://example.com/webhook"
       responses:
         '201':
           description: Command created
@@ -87,6 +104,8 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the command to retrieve.
+            example: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         '200':
           description: A command
@@ -104,6 +123,8 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the command to delete.
+            example: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         '204':
           description: Command deleted
@@ -115,21 +136,49 @@ components:
         id:
           type: string
           format: uuid
+          description: The ID of the command.
+          example: "123e4567-e89b-12d3-a456-426614174000"
         original_request:
           type: object
+          description: The original request.
+          example: {
+            "input_files": {
+              "in_1": "https://www3.cde.ca.gov/download/rod/big_buck_bunny.mp4"
+            },
+            "output_files": {
+              "out_1": "output.mp4"
+            },
+            "ffmpeg_command": "ffmpeg -i {{in_1}} -c:v copy -c:a copy {{out_1}}"
+          }
         output_files:
           type: object
+          description: The output files.
+          example: {
+            "out_1": "output.mp4"
+          }
         status:
           type: string
+          description: The status of the command.
+          example: "pending"
         total_processing_seconds:
           type: number
+          description: The total processing time in seconds.
+          example: 123.45
         created_at:
           type: string
           format: date-time
+          description: The creation time of the command.
+          example: "2022-01-01T00:00:00Z"
         processing_errors:
           type: array
           items:
             type: string
+            description: The processing errors.
+            example: [
+              "Error processing command",
+              "Invalid Input File URL"
+            ]
+
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
