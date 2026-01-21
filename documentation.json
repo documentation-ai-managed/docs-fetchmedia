@@ -90,13 +90,14 @@
         "icon": "help-circle",
         "pages": [
           {
-            "title": "FAQ's",
-            "path": "help-center/faq"
-          },
-          {
             "title": "Help Center",
             "path": "help-center",
             "icon": "home"
+          },
+          {
+            "title": "FAQ's",
+            "path": "help-center/faq",
+            "icon": "message-circle-question-mark"
           },
           {
             "group": "Troubleshooting",
