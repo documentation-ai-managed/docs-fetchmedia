@@ -1,0 +1,31 @@
+---
+title: Video Fetch Fails
+description: Resolve fetch failures from social platforms in FetchMedia.
+---
+
+## Symptoms
+
+- API returns error: "Failed to fetch video"
+- No video in response
+
+## Causes
+
+- Invalid or unsupported social link
+- Account is out of quota
+
+## Solution
+
+<Steps>
+  <Step title="Check the Link">
+    ````
+    Make sure the URL is correct and public.
+    Example: https://www.tiktok.com/@user/video/1234
+    ````
+  </Step>
+  <Step title="Verify Quota">
+    ````
+    Log in to FetchMedia dashboard and check your plan limits.
+    Upgrade if your quota is exhausted.
+    ````
+  </Step>
+</Steps>

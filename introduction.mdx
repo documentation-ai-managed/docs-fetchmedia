@@ -1,0 +1,124 @@
+---
+title: Introduction to FetchMedia
+description: Discover FetchMedia, an API platform that simplifies fetching and processing videos from social media sources like TikTok, Instagram, and YouTube using FFmpeg for automated editing and repurposing.
+---
+
+## Overview
+
+FetchMedia provides a unified API to fetch videos from social media platforms like TikTok, Instagram, YouTube, LinkedIn, X, and Facebook. You process these videos server-side with FFmpeg for tasks such as trimming, adding watermarks, or converting formats. Integrate FetchMedia into your workflows with tools like n8n, Make, or any HTTP client to automate video fetching, editing, and repurposing.
+
+## Key Features
+
+FetchMedia streamlines your video workflows with powerful capabilities.
+
+<Columns cols={3}>
+  <Card title="Multi-Platform Fetching" icon="globe" href="/quickstart">
+    Extract videos from TikTok, Instagram, YouTube, and more using a single endpoint.
+  </Card>
+  <Card title="FFmpeg Processing" icon="video" href="/configuration">
+    Apply edits like cropping, resizing, subtitles, and effects directly via API parameters.
+  </Card>
+  <Card title="Automation Ready" icon="zap" href="/authentication">
+    Works seamlessly with n8n, Make, Zapier, and custom scripts for end-to-end automation.
+  </Card>
+</Columns>
+
+## Supported Platforms
+
+FetchMedia handles videos from major social sources. Use the same API call structure across platforms.
+
+<Tabs>
+  <Tab title="TikTok & Instagram" icon="smartphone">
+    Fetch short-form videos and Reels with metadata like captions and likes.
+  </Tab>
+  <Tab title="YouTube & Facebook" icon="play-circle">
+    Download clips, stories, and full videos, including private shares via direct links.
+  </Tab>
+  <Tab title="X & LinkedIn" icon="twitter">
+    Pull tweets with videos and professional posts for repurposing.
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  All platforms use the `https://api.example.com/v1/fetch` endpoint. Provide a video URL and optional FFmpeg commands.
+</Callout>
+
+## Quick Start
+
+Get started in minutes.
+
+<Steps>
+  <Step title="Sign Up" icon="user-plus">
+    Create an account at `https://dashboard.example.com` and generate your API key.
+  </Step>
+  <Step title="Fetch a Video" icon="download">
+    Use this example to fetch and process a TikTok video.
+
+    <CodeGroup tabs="JavaScript,cURL,Python">
+      ```javascript
+      const response = await fetch('https://api.example.com/v1/fetch', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer YOUR_API_KEY',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          url: 'https://www.tiktok.com/@user/video/123456789',
+          ffmpeg: '-vf "scale=1280:720"'
+        })
+      });
+      const data = await response.json();
+      console.log(data.downloadUrl);
+      ```
+
+      ```bash
+      curl -X POST https://api.example.com/v1/fetch \
+        -H "Authorization: Bearer YOUR_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "url": "https://www.tiktok.com/@user/video/123456789",
+          "ffmpeg": "-vf \"scale=1280:720\""
+        }'
+      ```
+
+      ```python
+      import requests
+
+      response = requests.post(
+          'https://api.example.com/v1/fetch',
+          headers={
+              'Authorization': 'Bearer YOUR_API_KEY',
+              'Content-Type': 'application/json'
+          },
+          json={
+              'url': 'https://www.tiktok.com/@user/video/123456789',
+              'ffmpeg': '-vf "scale=1280:720"'
+          }
+      )
+      print(response.json()['downloadUrl'])
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Download Processed Video" icon="save">
+    Access the `downloadUrl` from the response to retrieve your edited video.
+  </Step>
+</Steps>
+
+## Benefits for Your Workflows
+
+Automate repetitive video tasks. Save hours by fetching, editing, and exporting content without manual downloads or desktop tools. Scale your social media repurposing with reliable processing that handles high volumes.
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="book-open" href="/quickstart">
+    Dive into full setup and advanced examples.
+  </Card>
+  <Card title="Authentication" icon="key" href="/authentication">
+    Secure your API calls with keys and webhooks.
+  </Card>
+</Columns>
+
+<Callout kind="tip">
+  Replace `YOUR_API_KEY` with your actual key from the dashboard. Start with simple fetches before adding complex FFmpeg commands.
+</Callout>

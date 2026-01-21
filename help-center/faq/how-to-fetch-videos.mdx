@@ -1,0 +1,22 @@
+---
+title: How do I fetch videos from social media?
+description: Learn how to fetch videos from supported platforms using FetchMedia.
+---
+
+## Overview
+
+FetchMedia lets you fetch videos using a simple API request. Just provide the social link and your API key.
+
+## Steps
+
+1. Copy the social video URL (e.g., TikTok, Instagram)
+2. Get your API key from the FetchMedia dashboard
+3. Send a request:
+
+```bash
+curl -X POST https://api.fetchmedia.com/v1/fetch \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"url": "SOCIAL_VIDEO_URL"}'
+```
+
+You’ll receive the processed video or a download link in the response.

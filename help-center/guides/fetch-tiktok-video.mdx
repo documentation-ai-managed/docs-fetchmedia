@@ -1,0 +1,28 @@
+---
+title: Fetch a TikTok Video
+description: Step-by-step guide to fetch a TikTok video using FetchMedia.
+---
+
+## Overview
+
+Fetch and process a TikTok video in minutes.
+
+<Steps>
+  <Step title="Copy a TikTok video link">
+    ````
+    Example: https://www.tiktok.com/@user/video/123456
+    ````
+  </Step>
+  <Step title="Send API request">
+    ````bash
+    curl -X POST https://api.fetchmedia.com/v1/fetch \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -d '{"url": "PASTE_TIKTOK_URL_HERE"}'
+    ````
+  </Step>
+  <Step title="Download your video">
+    ````
+    Find the video URL in the JSON response and download using your browser or curl.
+    ````
+  </Step>
+</Steps>

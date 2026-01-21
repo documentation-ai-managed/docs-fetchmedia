@@ -1,0 +1,137 @@
+---
+title: Changelog
+description: Track the latest updates, new features, and improvements in FetchMedia, including recent additions to supported platforms and processing capabilities.
+---
+
+## Recent Updates
+
+Stay informed about FetchMedia's evolution. You receive new capabilities for fetching videos from more social platforms and enhanced FFmpeg processing options with each release.
+
+<Columns cols={3}>
+  <Card title="New Platforms" icon="globe" href="#v1-3-0">
+    Fetch videos from LinkedIn and expanded X support.
+  </Card>
+  <Card title="FFmpeg Enhancements" icon="video" href="#v1-2-0">
+    Advanced trimming, overlays, and format conversions.
+  </Card>
+  <Card title="Performance Boosts" icon="zap" href="#v1-1-0">
+    Faster processing and reliable error handling.
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Check your current version by including the `version` query parameter in any API request to `https://api.example.com/videos`.
+</Callout>
+
+<Update id="v1-3-0" label="2024-10-15" description="v1.3.0" tags={["feature", "improvement"]}>
+
+## New Features
+
+- Added support for LinkedIn video fetching. Provide a LinkedIn post URL to extract high-quality videos.
+- Expanded X (Twitter) integration to handle threads and longer videos seamlessly.
+
+## Improvements
+
+- Updated FFmpeg presets with new options for watermark overlays and subtitle burning.
+- Increased throughput by 25% for batch processing jobs.
+
+## Bug Fixes
+
+- Fixed intermittent failures in Instagram Reels extraction.
+- Resolved timeout issues during YouTube live stream processing.
+
+</Update>
+
+<Update id="v1-2-0" label="2024-09-20" description="v1.2.0" tags={["feature", "bugfix"]}>
+
+## New Features
+
+- Introduced FFmpeg trimming and concatenation endpoints for seamless video editing.
+- Added YouTube Shorts specific optimizations for quick repurposing.
+
+## Improvements
+
+- Enhanced error messages with detailed FFmpeg logs for easier debugging.
+- Reduced average processing time by 15% across all platforms.
+
+## Bug Fixes
+
+- Patched Facebook video download failures due to updated privacy settings.
+- Corrected aspect ratio distortions in TikTok exports.
+
+</Update>
+
+<Update id="v1-1-0" label="2024-08-10" description="v1.1.0" tags={["feature", "breaking"]}>
+
+## New Features
+
+- Initial FFmpeg processing pipeline: trim, resize, convert formats from any input video.
+- Core integrations for TikTok, Instagram, and YouTube video fetching.
+
+## Breaking Changes
+
+- Updated request format: `platform` parameter now required as `tiktok|instagram|youtube`.
+
+## Bug Fixes
+
+- Stabilized API rate limiting to prevent over-fetching errors.
+- Fixed invalid media type responses for edge-case URLs.
+
+</Update>
+
+## Upgrade Guide
+
+Follow these steps to ensure you benefit from the latest features.
+
+<Steps>
+  <Step title="Review Changes" icon="book-open">
+
+    Scan the updates above for breaking changes, especially in v1.1.0.
+
+  </Step>
+  <Step title="Update Code" icon="code">
+
+    Refresh your integration with the new parameters.
+
+````jsx
+<CodeGroup tabs="JavaScript,cURL">
+```javascript
+const response = await fetch('https://api.example.com/videos', {
+  method: 'POST',
+  headers: { 'Authorization': `Bearer ${YOUR_API_KEY}` },
+  body: JSON.stringify({
+    url: 'https://tiktok.com/@user/video/123',
+    platform: 'tiktok',  // Now required
+    ffmpeg: { trim: '00:00:10-00:00:30' }
+  })
+});
+```
+```bash
+curl -X POST https://api.example.com/videos \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "url": "https://tiktok.com/@user/video/123",
+    "platform": "tiktok",
+    "ffmpeg": { "trim": "00:00:10-00:00:30" }
+  }'
+```
+</CodeGroup>
+````
+
+  </Step>
+  <Step title="Test Processing" icon="play-circle">
+
+    Run a test job with a sample social media URL to verify FFmpeg options.
+
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+  Integrate with n8n or Make workflows for automated updates. Visit the [Quickstart](/quickstart) for full setup.
+</Callout>
+
+| Version | Date       | Key Changes                  |
+|---------|------------|------------------------------|
+| v1.3.0 | 2024-10-15 | LinkedIn support, FFmpeg overlays |
+| v1.2.0 | 2024-09-20 | Trimming API, YouTube Shorts  |
+| v1.1.0 | 2024-08-10 | Core platforms, FFmpeg basics |
