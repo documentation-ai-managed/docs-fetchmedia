@@ -117,6 +117,14 @@ paths:
           required: true
           schema:
             type: string
+      responses:
+        '302':
+          description: Redirect to the file
+          headers:
+            Location:
+              schema:
+                type: string
+                format: url
   /commands:
     get:
       summary: List commands
@@ -320,6 +328,14 @@ paths:
           required: true
           schema:
             type: string
+      responses:
+        '302':
+          description: Redirect to the file
+          headers:
+            Location:
+              schema:
+                type: string
+                format: url
 components:
   schemas:
     Asset:
