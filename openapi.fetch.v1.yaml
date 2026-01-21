@@ -22,13 +22,16 @@ paths:
                   type: string
                   format: url
                   description: The URL to fetch.
-                quality:
-                  type: string
-                  description: The quality of the video to fetch.
+                  example: "https://www.youtube.com/watch?v=93npkPcQIzA"
+                # quality:
+                #   type: string
+                #   description: The quality of the video to fetch.
+                #   example: "1080p"
                 webhook:
                   type: string
                   format: url
                   description: The URL to send a webhook to when the fetch is complete.
+                  example: "https://example.com/webhook"
       responses:
         '201':
           description: Fetch created
@@ -56,6 +59,8 @@ paths:
           schema:
             type: string
             format: url
+            description: The URL to fetch metadata for.
+            example: "https://www.youtube.com/watch?v=93npkPcQIzA"
       responses:
         '200':
           description: Video metadata
@@ -76,6 +81,8 @@ paths:
                 url:
                   type: string
                   format: url
+                  description: The URL to fetch metadata for.
+                  example: "https://www.youtube.com/watch?v=93npkPcQIzA"
       responses:
         '200':
           description: Video metadata
@@ -94,6 +101,8 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the fetch to retrieve.
+            example: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         '200':
           description: A fetch
@@ -112,11 +121,15 @@ paths:
           schema:
             type: string
             format: uuid
+            description: The ID of the fetch to retrieve.
+            example: "123e4567-e89b-12d3-a456-426614174000"
         - name: filename
           in: path
           required: true
           schema:
             type: string
+            description: The filename of the file to download.
+            example: "output.mp4"
       responses:
         '302':
           description: Redirect to the file
@@ -125,6 +138,8 @@ paths:
               schema:
                 type: string
                 format: url
+                description: Directed to an expiring URL to download the file.
+
 components:
   schemas:
     Fetch:
@@ -133,30 +148,46 @@ components:
         id:
           type: string
           format: uuid
-        digest:
-          type: string
+          description: The ID of the fetch.
+          example: "123e4567-e89b-12d3-a456-426614174000"
         url:
           type: string
           format: url
+          description: The URL that was fetched.
+          example: "https://www.youtube.com/watch?v=93npkPcQIzA"
         status:
           type: string
+          description: The status of the fetch.
+          example: "running"
         download_url:
           type: string
           format: url
+          description: The URL to download the fetched file.
+          example: "https://api.fetchmedia.io/v1/fetch/123e4567-e89b-12d3-a456-426614174000/output.mp4"
         error:
           type: string
+          description: The error message if the fetch failed.
+          example: "An error occurred while fetching the file."
     Metadata:
       type: object
       properties:
         title:
           type: string
+          description: The title of the video.
+          example: "Video Title"
         description:
           type: string
+          description: The description of the video.
+          example: "Video Description"
         thumbnail:
           type: string
           format: url
+          description: The thumbnail of the video.
+          example: "https://example.com/thumbnail.jpg"
         duration:
           type: number
+          description: The duration of the video.
+          example: 123.45
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
