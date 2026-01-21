@@ -49,11 +49,11 @@ paths:
                   type: array
                   items:
                     type: string
-                    description: The ffmpeg commands to execute. mutually exclusive with ffmpeg_command.
-                    example: [
-                      "ffmpeg -y -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 1 -an -f mp4 /dev/null",
-                      "ffmpeg -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 2 {{out_1}}"
-                    ]
+                  description: Multiple ffmpeg commands to execute. mutually exclusive with ffmpeg_command.
+                  example: [
+                    "ffmpeg -y -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 1 -an -f mp4 /dev/null",
+                    "ffmpeg -i {{in_1}} -c:v libx264 -b:v 2M -maxrate 3M -bufsize 1M -pass 2 {{out_1}}"
+                  ]
                 input_files:
                   type: object
                   description: The input files to use for the command.
