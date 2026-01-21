@@ -20,11 +20,6 @@
             "icon": "rocket",
             "pages": [
               {
-                "title": "FAQ's",
-                "path": "help-center/faq",
-                "icon": "message-circle-question-mark"
-              },
-              {
                 "title": "Introduction",
                 "path": "introduction",
                 "icon": "star"
@@ -33,6 +28,11 @@
                 "title": "Quickstart",
                 "path": "quickstart",
                 "icon": "zap"
+              },
+              {
+                "title": "FAQ's",
+                "path": "help-center/faq",
+                "icon": "message-circle-question-mark"
               }
             ]
           },
