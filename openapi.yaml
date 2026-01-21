@@ -406,7 +406,7 @@ components:
         duration:
           type: number
     ApiKeyAuth:
-      type: apiKey
+      type: string
       in: header
       name: X-API-KEY
 security:
