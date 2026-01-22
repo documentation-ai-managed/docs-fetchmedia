@@ -1,4 +1,98 @@
 ---
 title: API Introduction
+description: >-
+  Core concepts, file naming conventions, authentication, and high-level API
+  overview.
+---
+## File Naming and Aliasing
+
+### Input Files
+
+When referencing input media, FetchMedia **requires aliased file names**, not raw URLs or paths inside commands.
+Input aliases should use the `in_` prefix followed by a numeric or descriptive suffix.
+
+**Recommended pattern**
+
+- `in_1`
+
+- `in_main`
+
+- `in_audio`
+
+These aliases are mapped to actual file URLs or uploaded assets via the `input_files` object.\
+This keeps FFmpeg commands clean, reusable, and deterministic.
+
 ---
 
+### Output Files
+
+Output files follow the same aliasing model using the `out_` prefix.
+
+**Recommended pattern**
+
+- `out_1`
+
+- `out_final`
+
+- `out_preview`
+
+Output aliases are resolved using the `output_files` object and define the filenames that will be generated and stored by FetchMedia.
+
+This approach allows multiple outputs, predictable naming, and easy chaining of commands.
+
+---
+
+## Why File Aliasing Exists
+
+### Clean Commands, Predictable Execution
+
+Aliasing files decouples **execution logic** from **file transport and storage**.
+
+By separating file references from FFmpeg commands:
+
+- Commands become reusable templates
+
+- URLs and storage details are abstracted away
+
+- Validation and security are centralized
+
+- Multi-step pipelines are easier to manage
+
+This design avoids fragile, URL-heavy command strings and ensures consistent execution across environments.
+
+---
+
+## Authentication
+
+All FetchMedia APIs use **API key authentication**.
+
+You must include your API key in every request using the following header:
+
+```
+--header X-API-KEY: your_api_key_here
+```
+
+Requests without a valid API key are rejected.
+Authentication is required for all endpoints across Fetch, Files, and Commands.
+
+---
+
+## API Modules Overview
+
+### Fetch API
+
+The Fetch API pulls media from supported public URLs into FetchMedia asynchronously. It is used to ingest external content and, optionally, to inspect metadata before download.
+
+---
+
+### Files API
+
+The Files API manages uploaded and imported media assets.
+It handles ingestion, probing (ffprobe), secure downloads, and lifecycle management.
+
+---
+
+### Commands API
+
+The Commands API executes FFmpeg-based media processing jobs.
+It transforms input files into output files using templated, alias-driven commands.
