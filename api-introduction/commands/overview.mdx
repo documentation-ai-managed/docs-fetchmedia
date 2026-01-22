@@ -11,9 +11,9 @@ You submit a command describing:
 
 - **What to run** (one or more FFmpeg commands)
 
-- **Which inputs to use** (remote media URLs)
+- **Which input files to use** (remote media URLs)
 
-- **What outputs files to generate**
+- **What output files to generate**
 
 - **Where to receive completion callbacks** (optional webhook)
 
@@ -50,7 +50,7 @@ This allows reusable, template-style FFmpeg commands.
 
 ## API Endpoints
 
-### `GET /commands` — [List Commands](/get-commands)
+### `GET /commands` - [List Commands](/get-commands)
 
 **What it does**\
 Returns a paginated list of previously created commands.
@@ -71,7 +71,7 @@ Returns a paginated list of previously created commands.
 
 ---
 
-### `POST /commands` — [Create a Command](/post-commands)
+### `POST /commands` - [Create a Command](/post-commands)
 
 **What it does**\
 Creates and starts a new media-processing job.
@@ -107,18 +107,12 @@ They are **mutually exclusive**.
 
 - Convert formats without re-encoding
 
-**Webhook**
+**Webhook**\
 If provided, FetchMedia sends the final command payload to your webhook URL when processing completes (success or failure).
-
-**Response**
-
-- `201 Created` with a `command_id`
-
-- `422 Unprocessable Entity` for validation errors
 
 ---
 
-### `GET /commands/{id}` — Get Command Details
+### `GET /commands/{id}` - [Get Command Details](/get-commands-id)
 
 **What it does**\
 Retrieves full details for a specific command.
@@ -145,7 +139,7 @@ Retrieves full details for a specific command.
 
 ---
 
-### `DELETE /commands/{id}` — Delete a Command
+### `DELETE /commands/{id}` - [Delete a Command](/delete-commands-id)
 
 **What it does**\
 Deletes a command record by ID.
@@ -158,32 +152,7 @@ Deletes a command record by ID.
 
 **Notes**
 
-- Returns `204 No Content`
-
-- Intended for metadata cleanup, not job cancellation
+- Intended for old commands cleanup, not job cancellation
 
 ---
 
-## Command Schema Summary
-
-A command object includes:
-
-- `id`: Unique command UUID
-
-- `original_request`: Full request payload used to create the job
-
-- `output_files`: Generated output file mappings
-
-- `status`: Job state
-
-- `total_processing_seconds`: Execution time
-
-- `created_at`: Creation timestamp
-
-- `processing_errors`: FFmpeg stderr output if execution fails
-
----
-
-## Authentication
-
-All requests require an API key:
