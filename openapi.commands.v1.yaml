@@ -161,7 +161,7 @@ components:
         status:
           type: string
           description: The status of the command.
-          example: "pending"
+          example: "pending | running | success | failed"
         total_processing_seconds:
           type: number
           description: The total processing time in seconds.
@@ -175,11 +175,22 @@ components:
           type: array
           items:
             type: string
-            description: The processing errors.
-            example: [
-              "Error processing command",
-              "Invalid Input File URL"
-            ]
+          description: The processing errors.
+          example:
+            - |
+              ffmpeg version 5.1.2 Copyright (c) 2000-2022 the FFmpeg developers
+                built with Apple clang version 14.0.0 (clang-1400.0.29.202)
+                configuration: --prefix=/usr/local/Cellar/ffmpeg/5.1.2_5 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gnutls --enable-gpl --enable-libaom --enable-libaribb24 --enable-libbluray --enable-libdav1d --enable-libmp3lame --enable-libopus --enable-librav1e --enable-librist --enable-librubberband --enable-libsnappy --enable-libsrt --enable-libsvtav1 --enable-libtesseract --enable-libtheora --enable-libvidstab --enable-libvmaf --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libxvid --enable-lzma --enable-libfontconfig --enable-libfreetype --enable-frei0r --enable-libass --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libspeex --enable-libsoxr --enable-libvideotoolbox --disable-libjack --disable-indev=jack
+                libavutil      57. 28.100 / 57. 28.100
+                libavcodec     59. 37.100 / 59. 37.100
+                libavformat    59. 27.100 / 59. 27.100
+                libavdevice    59.  7.100 / 59.  7.100
+                libavfilter     8. 44.100 /  8. 44.100
+                libswscale      6.  7.100 /  6.  7.100
+                libswresample   4.  7.100 /  4.  7.100
+                libpostproc    56.  6.100 / 56.  6.100
+              Unrecognized option 'pass'.
+              Error splitting the argument list: Option not found
 
   securitySchemes:
     ApiKeyAuth:
