@@ -1,4 +1,159 @@
 ---
 title: Files Overview
+description: >-
+  Upload, store, download, and ingest media files used by FetchMedia in ffmpeg
+  commands processing pipelines.
 ---
+## Overview
+
+The **FetchMedia Files API** provides a unified interface for ingesting, storing, downloading, and inspecting media files used across the FetchMedia platform.\
+It is designed as the entry point for media files that will later be processed by commands (FFmpeg jobs) or consumed directly.
+
+Files can be created by:
+
+- Uploading a binary file
+
+- Importing a publicly accessible URL
+
+Once ingested, FetchMedia automatically probes the media using **ffprobe** to extract metadata such as duration, resolution, and format.
+
+All requests require API key authentication via the `X-API-KEY` header.
+
+---
+
+## Core Concepts
+
+### File
+
+A **File** represents a single media file stored in FetchMedia.\
+It includes metadata, processing status, download URL, and optional ffprobe results.
+
+### File Lifecycle
+
+1. File is uploaded or imported
+
+2. File is processed and analyzed
+
+3. Metadata becomes available
+
+4. File can be referenced by other APIs (e.g. Commands)
+
+5. File can be downloaded or deleted
+
+### Secure Downloads
+
+Files are downloaded via a **302 redirect** to a short-lived, signed URL.
+
+---
+
+## API Endpoints
+
+### `GET /files` - [List Files](/get-files)
+
+**What it does**\
+Returns a paginated list of all uploaded or imported files.
+
+**How to use it**
+
+- Build media libraries
+
+- Display file lists in dashboards
+
+- Audit stored files
+
+**Typical use cases**
+
+- Fetch the latest uploaded files
+
+- Paginate through historical files
+
+---
+
+### `POST /files` - [Create a File](/post-files)
+
+**What it does**\
+Creates a new file by either uploading a file or importing it from a URL.
+
+**How it works**
+
+- Accepts `multipart/form-data`
+
+- You must provide **either**:
+
+  - `file` (binary upload)
+
+  - `file_url` (publicly accessible URL)
+
+**Common usage patterns**
+
+- Upload user-generated content
+
+- Import media from external storage or CDN
+
+- Import media from public social URLs
+
+- Prepare files for FFmpeg processing
+
+---
+
+### `GET /files/{id}` - [Get File Details](/get-files-id)
+
+**What it does**\
+Retrieves metadata and processing status for a single file.
+
+**Returned data includes**
+
+- File name and source
+
+- Processing status
+
+- Download URL
+
+- ffprobe metadata (if available)
+
+- Error details if processing failed
+
+**How to use it**
+
+- Poll file readiness
+
+- Inspect media properties before processing
+
+- Debug ingestion issues
+
+---
+
+### `DELETE /files/{id}` - [Delete a File](/delete-files-id)
+
+**What it does**\
+Deletes a file by ID.
+
+**How to use it**
+
+- Clean up unused or temporary media
+
+- Enforce storage limits or retention policies
+
+**Notes**
+
+- Deletion removes the file and associated metadata
+
+---
+
+### `GET /files/{id}/{filename}` - [Download a File](/get-files-id-filename)
+
+**What it does**\
+Initiates a secure download of the file.
+
+**How it works**
+
+- Redirects to a time-limited, signed download URL
+
+**How to use it**
+
+- Download processed file
+
+- Serve files to end users via controlled redirects
+
+- Avoid proxying large media files through your backend
 
