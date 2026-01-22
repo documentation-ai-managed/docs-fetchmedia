@@ -139,7 +139,6 @@ paths:
                 type: string
                 format: url
                 description: Directed to an expiring URL to download the file.
-
 components:
   schemas:
     FetchId:
@@ -166,7 +165,7 @@ components:
         status:
           type: string
           description: The status of the fetch.
-          example: "running"
+          example: "pending | running | success | failed"
         download_url:
           type: string
           format: url
@@ -174,6 +173,7 @@ components:
           example: "https://api.fetchmedia.io/v1/fetch/123e4567-e89b-12d3-a456-426614174000/output.mp4"
         error:
           type: string
+          nullable: true
           description: The error message if the fetch failed.
           example: "An error occurred while fetching the file."
     Metadata:
