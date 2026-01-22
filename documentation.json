@@ -75,7 +75,7 @@
                 "group": "Commands",
                 "pages": [
                   {
-                    "title": "Commands Overview",
+                    "title": "Overview",
                     "path": "api-introduction/commands/overview"
                   }
                 ],
@@ -85,7 +85,7 @@
                 "group": "Files",
                 "pages": [
                   {
-                    "title": "Files Overview",
+                    "title": "Overview",
                     "path": "api-introduction/files/overview"
                   }
                 ],
@@ -95,7 +95,7 @@
                 "group": "Fetch",
                 "pages": [
                   {
-                    "title": "Fetch Overview",
+                    "title": "Overview",
                     "path": "api-introduction/fetch/overview"
                   }
                 ],
