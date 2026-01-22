@@ -1,189 +1,162 @@
 ---
-title: Overview Commands
-description: Execute and manage FFmpeg-based media processing jobs via API.
+title: Fetch Overview
+description: >-
+  Fetch and download media from supported URLs, with metadata inspection and
+  webhook-based completion.
 ---
 ## Overview
 
-The **FetchMedia Commands API** provides a simple, API-first way to execute FFmpeg commands on remote media files and manage their lifecycle.\
-It is designed for backend systems that need to automate video/audio processing such as transcoding, remuxing, multi-pass encoding, or format conversion without managing FFmpeg infrastructure.
+The **FetchMedia Fetch API** allows you to programmatically fetch media from supported public URLs (for example, video platforms, social networks) and make the resulting files available for download or further processing.
 
-You submit a command describing:
+This API is optimized for:
 
-- **What to run** (one or more FFmpeg commands)
+- Pulling remote media into FetchMedia without manual downloads
 
-- **Which inputs to use** (remote media URLs)
+- Inspecting media metadata before fetching
 
-- **What outputs files to generate**
+- Asynchronous processing with webhook notifications
 
-- **Where to receive completion callbacks** (optional webhook)
+- Secure, time-limited downloads
 
-The API handles execution, tracks status, captures errors, and exposes processing metadata.
-
-Authentication is performed using an API key passed via the `X-API-KEY` header.
+All requests require API key authentication via the `X-API-KEY` header.
 
 ---
 
 ## Core Concepts
 
-### Command
+### Fetch
 
-A **command** represents a single media-processing job.\
-It includes the original FFmpeg instructions, input/output mappings, execution status, timing, and errors.
+A **fetch** represents a job that retrieves media from a given URL.\
+Each fetch tracks status, errors, and the resulting downloadable file.
 
-### Placeholders
+### Asynchronous Execution
 
-FFmpeg commands use placeholders like `{{in_1}}` and `{{out_1}}`, which are dynamically replaced using:
+Fetching runs asynchronously:
 
-- `input_files`
+- You receive a `fetch_id` immediately
 
-- `output_files`
+- The job transitions through `pending → running → success | failed`
 
-This allows reusable, template-style FFmpeg commands.
+- Completion can be tracked via polling or a webhook
 
-### Execution Modes
+### Secure Downloads
 
-- **Single command**: One FFmpeg invocation
-
-- **Multiple commands**: Sequential FFmpeg invocations (e.g. two-pass or three-pass encoding)
+Fetched files are downloaded using a `302` redirect to an expiring, signed URL.
 
 ---
 
 ## API Endpoints
 
-### `GET /commands` — [List Commands](/get-commands)
+### `POST /fetch` - [Create a Fetch](/post-fetch)
 
 **What it does**\
-Returns a paginated list of previously created commands.
+Starts a new fetch for a given URL.
 
 **How to use it**
 
-- Monitor recent jobs
+- Submit a public media URL
 
-- Build dashboards or admin views
+- Optionally provide a webhook for completion notification
 
-- Audit command history
-
-**Typical use cases**
-
-- Fetch the latest processing jobs
-
-- Paginate through historical executions
-
----
-
-### `POST /commands` — [Create a Command](/post-commands)
-
-**What it does**\
-Creates and starts a new media-processing job.
-
-**How it works**
-
-1. Define FFmpeg command(s)
-
-2. Map input and output placeholders
-
-3. Optionally specify a webhook
-
-4. Submit the job and receive a `command_id`
-
-**Request Options**
-
-You must provide **either**:
-
-- `ffmpeg_command` (single command)\
-  **or**
-
-- `ffmpeg_commands` (array of commands)
-
-They are **mutually exclusive**.
+- Receive a `fetch_id` to track progress
 
 **Common usage patterns**
 
-- Remux video/audio streams
+- Download videos from supported platforms
 
-- Transcode to specific codecs or bitrates
-
-- Perform multi-pass encoding
-
-- Convert formats without re-encoding
-
-**Webhook**
-If provided, FetchMedia sends the final command payload to your webhook URL when processing completes (success or failure).
-
-**Response**
-
-- `201 Created` with a `command_id`
-
-- `422 Unprocessable Entity` for validation errors
+- Automate content acquisition workflows
 
 ---
 
-### `GET /commands/{id}` — Get Command Details
+### `GET /fetch/metadata` - [Get Video Metadata (Query)](/get-fetch-metadata)
 
 **What it does**\
-Retrieves full details for a specific command.
-
-**Returned data includes**
-
-- Original request payload
-
-- Output files
-
-- Current status (`pending`, `running`, `success`, `failed`)
-
-- Processing duration
-
-- FFmpeg error output (if failed)
+Retrieves metadata for a media URL without fetching the file.
 
 **How to use it**
 
-- Poll job status
+- Preview content before fetching
 
-- Debug failed FFmpeg executions
+- Understand media properties before fetching
 
-- Retrieve processing metrics
+- Validate URLs
 
----
-
-### `DELETE /commands/{id}` — Delete a Command
-
-**What it does**\
-Deletes a command record by ID.
-
-**How to use it**
-
-- Clean up completed or obsolete jobs
-
-- Enforce data retention policies
+- Display video details in UIs before starting a fetch
 
 **Notes**
 
-- Returns `204 No Content`
+- Requires the `url` query parameter
 
-- Intended for metadata cleanup, not job cancellation
+- No file is downloaded
 
----
-
-## Command Schema Summary
-
-A command object includes:
-
-- `id`: Unique command UUID
-
-- `original_request`: Full request payload used to create the job
-
-- `output_files`: Generated output file mappings
-
-- `status`: Job state
-
-- `total_processing_seconds`: Execution time
-
-- `created_at`: Creation timestamp
-
-- `processing_errors`: FFmpeg stderr output if execution fails
+- No fetch job is created
 
 ---
 
-## Authentication
+### `POST /fetch/metadata` - [Get Video Metadata (Body)](/post-fetch-metadata)
 
-All requests require an API key:
+**What it does**\
+Same functionality as the GET variant, but accepts the URL in the request body.
+
+**How to use it**
+
+- Preferable when URLs are long
+
+- Understand media properties before fetching
+
+- Useful for JSON-only API clients
+
+**Behavior**
+
+- Requires the `url` in the JSON body
+
+- No file is downloaded
+
+- No fetch job is created
+
+---
+
+### `GET /fetch/{id}` - [Get Fetch Status](/get-fetch-id)
+
+**What it does**\
+Retrieves the current state and details of a fetch job.
+
+**Returned data includes**
+
+- Original URL
+
+- Fetch status (`pending`, `running`, `success`, `failed`)
+
+- Download URL (when available)
+
+- Error message (if failed)
+
+**How to use it**
+
+- Poll fetch progress
+
+- Detect completion or failure
+
+- Retrieve the final download endpoint
+
+---
+
+### `GET /fetch/{id}/{filename}` - [Download Fetched File](/get-fetch-id-filename)
+
+**What it does**\
+Initiates download of the fetched media file.
+
+**How it works**
+
+- Returns a `302` redirect
+
+- Redirects to a short-lived, signed download URL
+
+**How to use it**
+
+- Download fetched media
+
+- Serve files to clients without proxying large payloads
+
+- Chain into further processing steps
+
