@@ -1,4 +1,189 @@
 ---
-title: Fetch Overview
+title: Overview Commands
+description: Execute and manage FFmpeg-based media processing jobs via API.
+---
+## Overview
+
+The **FetchMedia Commands API** provides a simple, API-first way to execute FFmpeg commands on remote media files and manage their lifecycle.\
+It is designed for backend systems that need to automate video/audio processing such as transcoding, remuxing, multi-pass encoding, or format conversion without managing FFmpeg infrastructure.
+
+You submit a command describing:
+
+- **What to run** (one or more FFmpeg commands)
+
+- **Which inputs to use** (remote media URLs)
+
+- **What outputs files to generate**
+
+- **Where to receive completion callbacks** (optional webhook)
+
+The API handles execution, tracks status, captures errors, and exposes processing metadata.
+
+Authentication is performed using an API key passed via the `X-API-KEY` header.
+
 ---
 
+## Core Concepts
+
+### Command
+
+A **command** represents a single media-processing job.\
+It includes the original FFmpeg instructions, input/output mappings, execution status, timing, and errors.
+
+### Placeholders
+
+FFmpeg commands use placeholders like `{{in_1}}` and `{{out_1}}`, which are dynamically replaced using:
+
+- `input_files`
+
+- `output_files`
+
+This allows reusable, template-style FFmpeg commands.
+
+### Execution Modes
+
+- **Single command**: One FFmpeg invocation
+
+- **Multiple commands**: Sequential FFmpeg invocations (e.g. two-pass or three-pass encoding)
+
+---
+
+## API Endpoints
+
+### `GET /commands` — [List Commands](/get-commands)
+
+**What it does**\
+Returns a paginated list of previously created commands.
+
+**How to use it**
+
+- Monitor recent jobs
+
+- Build dashboards or admin views
+
+- Audit command history
+
+**Typical use cases**
+
+- Fetch the latest processing jobs
+
+- Paginate through historical executions
+
+---
+
+### `POST /commands` — [Create a Command](/post-commands)
+
+**What it does**\
+Creates and starts a new media-processing job.
+
+**How it works**
+
+1. Define FFmpeg command(s)
+
+2. Map input and output placeholders
+
+3. Optionally specify a webhook
+
+4. Submit the job and receive a `command_id`
+
+**Request Options**
+
+You must provide **either**:
+
+- `ffmpeg_command` (single command)\
+  **or**
+
+- `ffmpeg_commands` (array of commands)
+
+They are **mutually exclusive**.
+
+**Common usage patterns**
+
+- Remux video/audio streams
+
+- Transcode to specific codecs or bitrates
+
+- Perform multi-pass encoding
+
+- Convert formats without re-encoding
+
+**Webhook**
+If provided, FetchMedia sends the final command payload to your webhook URL when processing completes (success or failure).
+
+**Response**
+
+- `201 Created` with a `command_id`
+
+- `422 Unprocessable Entity` for validation errors
+
+---
+
+### `GET /commands/{id}` — Get Command Details
+
+**What it does**\
+Retrieves full details for a specific command.
+
+**Returned data includes**
+
+- Original request payload
+
+- Output files
+
+- Current status (`pending`, `running`, `success`, `failed`)
+
+- Processing duration
+
+- FFmpeg error output (if failed)
+
+**How to use it**
+
+- Poll job status
+
+- Debug failed FFmpeg executions
+
+- Retrieve processing metrics
+
+---
+
+### `DELETE /commands/{id}` — Delete a Command
+
+**What it does**\
+Deletes a command record by ID.
+
+**How to use it**
+
+- Clean up completed or obsolete jobs
+
+- Enforce data retention policies
+
+**Notes**
+
+- Returns `204 No Content`
+
+- Intended for metadata cleanup, not job cancellation
+
+---
+
+## Command Schema Summary
+
+A command object includes:
+
+- `id`: Unique command UUID
+
+- `original_request`: Full request payload used to create the job
+
+- `output_files`: Generated output file mappings
+
+- `status`: Job state
+
+- `total_processing_seconds`: Execution time
+
+- `created_at`: Creation timestamp
+
+- `processing_errors`: FFmpeg stderr output if execution fails
+
+---
+
+## Authentication
+
+All requests require an API key:
