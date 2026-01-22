@@ -73,7 +73,12 @@
               },
               {
                 "group": "Commands",
-                "pages": [],
+                "pages": [
+                  {
+                    "title": "Overview",
+                    "path": "overview"
+                  }
+                ],
                 "openapi": "openapi.commands.v1.yaml"
               },
               {
